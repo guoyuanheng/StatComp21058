@@ -1,0 +1,18 @@
+Package: StatComp21058
+Type: Package
+Title: StatComp21058
+Version: 1.0
+Date: 2021-12-18
+Author: guo yuanheng
+Maintainer: guo yuanheng <429555967@qq.com>
+Description: final project that is all my homework and two SRRR functions.
+License: GPL (>= 2)
+Imports: Rcpp , microbenchmark, knitr, rmarkdown, mvtnorm, boot, RANN, energy, Ball, parallel, bootstrap, stats4
+LinkingTo: Rcpp
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+LazyData: FALSE
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL:https://github.com/guoyuanheng/StatComp21058
+BugReports:https://github.com/guoyuanheng/StatComp21058/issues

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>useSRRR</title>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">useSRRR</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">SRRR&lt;-<span class="cf">function</span>(X,Y,lambda,r){</a>
+<a class="sourceLine" id="cb1-2" title="2">  </a>
+<a class="sourceLine" id="cb1-3" title="3">  n=<span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb1-4" title="4">  p=<span class="kw">ncol</span>(X)</a>
+<a class="sourceLine" id="cb1-5" title="5">  q=<span class="kw">ncol</span>(Y)</a>
+<a class="sourceLine" id="cb1-6" title="6">  f0&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="cf">for</span>(l <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p){</a>
+<a class="sourceLine" id="cb1-8" title="8">    f0[l]&lt;-<span class="kw">t</span>(X[,l])<span class="op">%*%</span>X[,l]<span class="op">+</span><span class="fl">0.000001</span></a>
+<a class="sourceLine" id="cb1-9" title="9">  }</a>
+<a class="sourceLine" id="cb1-10" title="10">  int&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-11" title="11">  </a>
+<a class="sourceLine" id="cb1-12" title="12">  Sxx&lt;-<span class="kw">t</span>(X)<span class="op">%*%</span>X<span class="op">/</span>n</a>
+<a class="sourceLine" id="cb1-13" title="13">  Sxy&lt;-<span class="kw">t</span>(X)<span class="op">%*%</span>Y<span class="op">/</span>n</a>
+<a class="sourceLine" id="cb1-14" title="14">  Syx&lt;-<span class="kw">t</span>(Y)<span class="op">%*%</span>X<span class="op">/</span>n</a>
+<a class="sourceLine" id="cb1-15" title="15">  S&lt;-Syx<span class="op">%*%</span><span class="kw">solve</span>(Sxx)<span class="op">%*%</span>Sxy           </a>
+<a class="sourceLine" id="cb1-16" title="16">  A&lt;-<span class="kw">eigen</span>(S)<span class="op">$</span>vector[,<span class="dv">1</span><span class="op">:</span>r]</a>
+<a class="sourceLine" id="cb1-17" title="17">  A&lt;-<span class="kw">as.matrix</span>(A)</a>
+<a class="sourceLine" id="cb1-18" title="18">  B&lt;-<span class="kw">solve</span>(Sxx)<span class="op">%*%</span>Sxy<span class="op">%*%</span>A</a>
+<a class="sourceLine" id="cb1-19" title="19">  Bhat&lt;-<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">ncol =</span> r,<span class="dt">nrow =</span> p)</a>
+<a class="sourceLine" id="cb1-20" title="20">  B0&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>,<span class="dt">ncol =</span> r,<span class="dt">nrow =</span> p)</a>
+<a class="sourceLine" id="cb1-21" title="21">  check=<span class="kw">c</span>(<span class="dv">10000</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-22" title="22">  </a>
+<a class="sourceLine" id="cb1-23" title="23">  <span class="cf">while</span>(<span class="kw">abs</span>(check[<span class="dv">1</span>]<span class="op">-</span>check[<span class="dv">2</span>])<span class="op">&gt;</span><span class="fl">0.0001</span>){</a>
+<a class="sourceLine" id="cb1-24" title="24">    </a>
+<a class="sourceLine" id="cb1-25" title="25">    A&lt;-<span class="kw">svd</span>(<span class="kw">t</span>(Y)<span class="op">%*%</span>X<span class="op">%*%</span>B)<span class="op">$</span>u<span class="op">%*%</span><span class="kw">t</span>(<span class="kw">svd</span>(<span class="kw">t</span>(Y)<span class="op">%*%</span>X<span class="op">%*%</span>B)<span class="op">$</span>v)</a>
+<a class="sourceLine" id="cb1-26" title="26">    </a>
+<a class="sourceLine" id="cb1-27" title="27">    <span class="cf">while</span>(<span class="kw">norm</span>(B0,<span class="st">&quot;F&quot;</span>)<span class="op">&gt;</span><span class="fl">0.0001</span>){</a>
+<a class="sourceLine" id="cb1-28" title="28">      <span class="cf">for</span>(l <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p){</a>
+<a class="sourceLine" id="cb1-29" title="29">        Rl&lt;-Y<span class="op">%*%</span>A<span class="op">-</span>X<span class="op">%*%</span>B<span class="op">+</span>X[,l]<span class="op">%*%</span><span class="kw">t</span>(B[l,])</a>
+<a class="sourceLine" id="cb1-30" title="30">        s&lt;-lambda[l]<span class="op">/</span><span class="dv">2</span><span class="op">/</span>(<span class="kw">norm</span>(<span class="kw">t</span>(X[,l])<span class="op">%*%</span>Rl,<span class="st">&quot;F&quot;</span>)<span class="op">+</span><span class="fl">0.000001</span>)</a>
+<a class="sourceLine" id="cb1-31" title="31">        <span class="cf">if</span>(s<span class="op">&lt;</span><span class="dv">1</span>){</a>
+<a class="sourceLine" id="cb1-32" title="32">          Bhat[l,]&lt;-<span class="kw">t</span>(X[,l])<span class="op">%*%</span>Rl<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>s)<span class="op">/</span>f0[l]</a>
+<a class="sourceLine" id="cb1-33" title="33">        }<span class="cf">else</span> Bhat[l,]&lt;-<span class="kw">rep</span>(<span class="dv">0</span>,r)</a>
+<a class="sourceLine" id="cb1-34" title="34">      }</a>
+<a class="sourceLine" id="cb1-35" title="35">      B0&lt;-B<span class="op">-</span>Bhat</a>
+<a class="sourceLine" id="cb1-36" title="36">      B&lt;-Bhat</a>
+<a class="sourceLine" id="cb1-37" title="37">      int&lt;-int<span class="op">+</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-38" title="38">      <span class="cf">if</span>(int<span class="op">==</span><span class="dv">500</span>) <span class="kw">return</span>(<span class="kw">list</span>(A,B,int))</a>
+<a class="sourceLine" id="cb1-39" title="39">    }</a>
+<a class="sourceLine" id="cb1-40" title="40">    </a>
+<a class="sourceLine" id="cb1-41" title="41">    </a>
+<a class="sourceLine" id="cb1-42" title="42">    c=<span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-43" title="43">    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p){</a>
+<a class="sourceLine" id="cb1-44" title="44">      c=c<span class="op">+</span>lambda[i]<span class="op">*</span><span class="kw">norm</span>(<span class="kw">as.matrix</span>(B[i,]),<span class="st">&quot;F&quot;</span>)</a>
+<a class="sourceLine" id="cb1-45" title="45">    }</a>
+<a class="sourceLine" id="cb1-46" title="46">    check[<span class="dv">1</span>]&lt;-check[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb1-47" title="47">    check[<span class="dv">2</span>]&lt;-<span class="kw">norm</span>(Y<span class="op">-</span>X<span class="op">%*%</span>B<span class="op">%*%</span><span class="kw">t</span>(A),<span class="st">&quot;2&quot;</span>)<span class="op">+</span>c</a>
+<a class="sourceLine" id="cb1-48" title="48">  }</a>
+<a class="sourceLine" id="cb1-49" title="49">  <span class="kw">return</span>(<span class="kw">list</span>(A,B,int))</a>
+<a class="sourceLine" id="cb1-50" title="50">}</a>
+<a class="sourceLine" id="cb1-51" title="51">SRRR2&lt;-<span class="cf">function</span>(X,Y,lambda,r){</a>
+<a class="sourceLine" id="cb1-52" title="52">  n=<span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb1-53" title="53">  p=<span class="kw">ncol</span>(X)</a>
+<a class="sourceLine" id="cb1-54" title="54">  q=<span class="kw">ncol</span>(Y)</a>
+<a class="sourceLine" id="cb1-55" title="55">  int&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-56" title="56">  B&lt;-<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">ncol =</span> r,<span class="dt">nrow =</span> p)</a>
+<a class="sourceLine" id="cb1-57" title="57">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>r){B[i,i]&lt;-<span class="dv">1</span>}</a>
+<a class="sourceLine" id="cb1-58" title="58">  Bhat&lt;-<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">ncol =</span> r,<span class="dt">nrow =</span> p)</a>
+<a class="sourceLine" id="cb1-59" title="59">  B0&lt;-<span class="kw">matrix</span>(<span class="dv">1</span>,<span class="dt">ncol =</span> r,<span class="dt">nrow =</span> p)</a>
+<a class="sourceLine" id="cb1-60" title="60">  </a>
+<a class="sourceLine" id="cb1-61" title="61">  check=<span class="kw">c</span>(<span class="dv">10000</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-62" title="62">  </a>
+<a class="sourceLine" id="cb1-63" title="63">  <span class="cf">while</span>(<span class="kw">abs</span>(check[<span class="dv">1</span>]<span class="op">-</span>check[<span class="dv">2</span>])<span class="op">&gt;</span><span class="fl">0.01</span>){</a>
+<a class="sourceLine" id="cb1-64" title="64">    A&lt;-<span class="kw">svd</span>(<span class="kw">t</span>(Y)<span class="op">%*%</span>X<span class="op">%*%</span>B)<span class="op">$</span>u<span class="op">%*%</span><span class="kw">t</span>(<span class="kw">svd</span>(<span class="kw">t</span>(Y)<span class="op">%*%</span>X<span class="op">%*%</span>B)<span class="op">$</span>v)</a>
+<a class="sourceLine" id="cb1-65" title="65">    <span class="cf">while</span>(<span class="kw">norm</span>(B0,<span class="st">&quot;F&quot;</span>)<span class="op">&gt;</span><span class="fl">0.01</span>){</a>
+<a class="sourceLine" id="cb1-66" title="66">      mu&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb1-67" title="67">      lammu&lt;-<span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb1-68" title="68">      <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p){</a>
+<a class="sourceLine" id="cb1-69" title="69">        mu[i]&lt;-<span class="dv">1</span><span class="op">/</span>(<span class="kw">norm</span>(<span class="kw">as.matrix</span>(B[i,]),<span class="st">&quot;F&quot;</span>)<span class="op">+</span><span class="fl">0.00000001</span>)</a>
+<a class="sourceLine" id="cb1-70" title="70">        lammu[i]&lt;-lambda[i]<span class="op">*</span>mu[i]</a>
+<a class="sourceLine" id="cb1-71" title="71">      }</a>
+<a class="sourceLine" id="cb1-72" title="72">      Bhat&lt;-<span class="kw">solve</span>(<span class="kw">t</span>(X)<span class="op">%*%</span>X<span class="op">+</span><span class="kw">diag</span>(lammu,<span class="dt">nrow=</span>p,<span class="dt">ncol=</span>p)<span class="op">/</span><span class="dv">2</span>)<span class="op">%*%</span><span class="kw">t</span>(X)<span class="op">%*%</span>Y<span class="op">%*%</span>A</a>
+<a class="sourceLine" id="cb1-73" title="73">      B0&lt;-B<span class="op">-</span>Bhat</a>
+<a class="sourceLine" id="cb1-74" title="74">      B&lt;-Bhat</a>
+<a class="sourceLine" id="cb1-75" title="75">      int&lt;-int<span class="op">+</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-76" title="76">      <span class="cf">if</span>(int<span class="op">==</span><span class="dv">5000</span>) <span class="kw">return</span>(<span class="kw">list</span>(A,B,int))</a>
+<a class="sourceLine" id="cb1-77" title="77">    }</a>
+<a class="sourceLine" id="cb1-78" title="78">    </a>
+<a class="sourceLine" id="cb1-79" title="79">    c=<span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-80" title="80">    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p){</a>
+<a class="sourceLine" id="cb1-81" title="81">      c=c<span class="op">+</span>lambda[i]<span class="op">*</span><span class="kw">norm</span>(<span class="kw">as.matrix</span>(B[i,]),<span class="st">&quot;F&quot;</span>)</a>
+<a class="sourceLine" id="cb1-82" title="82">    }</a>
+<a class="sourceLine" id="cb1-83" title="83">    check[<span class="dv">1</span>]&lt;-check[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb1-84" title="84">    check[<span class="dv">2</span>]&lt;-<span class="kw">norm</span>(Y<span class="op">-</span>X<span class="op">%*%</span>B<span class="op">%*%</span><span class="kw">t</span>(A),<span class="st">&quot;2&quot;</span>)<span class="op">+</span>c</a>
+<a class="sourceLine" id="cb1-85" title="85">  }</a>
+<a class="sourceLine" id="cb1-86" title="86">  <span class="kw">return</span>(<span class="kw">list</span>(A,B,int))</a>
+<a class="sourceLine" id="cb1-87" title="87">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(MASS)</a>
+<a class="sourceLine" id="cb2-2" title="2">n&lt;-<span class="dv">100</span></a>
+<a class="sourceLine" id="cb2-3" title="3">p=<span class="dv">30</span></a>
+<a class="sourceLine" id="cb2-4" title="4">p0=<span class="dv">10</span></a>
+<a class="sourceLine" id="cb2-5" title="5">q=<span class="dv">10</span></a>
+<a class="sourceLine" id="cb2-6" title="6">r=<span class="dv">3</span></a>
+<a class="sourceLine" id="cb2-7" title="7">rowx=<span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-8" title="8">rowe=<span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-9" title="9">sigmaX&lt;-<span class="kw">diag</span>(<span class="dv">1</span>,<span class="dt">nrow =</span> p,<span class="dt">ncol =</span> p)</a>
+<a class="sourceLine" id="cb2-10" title="10">X&lt;-<span class="kw">mvrnorm</span>(n,<span class="kw">rep</span>(<span class="dv">0</span>,p),sigmaX)</a>
+<a class="sourceLine" id="cb2-11" title="11">Bt&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rnorm</span>(p0<span class="op">*</span>r,<span class="dv">0</span>,<span class="dv">1</span>),<span class="kw">rep</span>(<span class="dv">0</span>,(p<span class="op">-</span>p0)<span class="op">*</span>r)),<span class="dt">nrow =</span> r,<span class="dt">ncol =</span> p)</a>
+<a class="sourceLine" id="cb2-12" title="12">B&lt;-<span class="kw">t</span>(Bt)</a>
+<a class="sourceLine" id="cb2-13" title="13">A&lt;-<span class="kw">matrix</span>(<span class="kw">rnorm</span>(q<span class="op">*</span>r,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">nrow =</span> q,<span class="dt">ncol =</span> r)</a>
+<a class="sourceLine" id="cb2-14" title="14">C=B<span class="op">%*%</span><span class="kw">t</span>(A)</a>
+<a class="sourceLine" id="cb2-15" title="15">sigma2&lt;-<span class="kw">sum</span>(<span class="kw">diag</span>((<span class="kw">t</span>(C)<span class="op">%*%</span>C)))<span class="op">/</span>q</a>
+<a class="sourceLine" id="cb2-16" title="16">sigmaE&lt;-<span class="kw">diag</span>(<span class="kw">sqrt</span>(sigma2),<span class="dt">nrow =</span> q,<span class="dt">ncol =</span> q)</a>
+<a class="sourceLine" id="cb2-17" title="17">E&lt;-<span class="kw">mvrnorm</span>(n,<span class="kw">rep</span>(<span class="dv">0</span>,q),sigmaE)</a>
+<a class="sourceLine" id="cb2-18" title="18">Y&lt;-X<span class="op">%*%</span>B<span class="op">%*%</span><span class="kw">t</span>(A)<span class="op">+</span>E</a>
+<a class="sourceLine" id="cb2-19" title="19">lambda&lt;-<span class="kw">rep</span>(<span class="dv">55</span>,p)</a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="kw">SRRR</span>(X,Y,lambda,<span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [[1]]
+##              [,1]        [,2]       [,3]
+##  [1,]  0.53276799  0.04516724  0.1465438
+##  [2,] -0.36201522  0.14594098  0.3382408
+##  [3,]  0.07880642  0.28707801 -0.4096088
+##  [4,] -0.29578626 -0.18276487  0.2904692
+##  [5,] -0.04279332  0.17039977  0.2274457
+##  [6,]  0.26112163  0.65980397  0.3945585
+##  [7,]  0.32426605  0.09892764 -0.4626034
+##  [8,]  0.00079230  0.25221975 -0.1098296
+##  [9,] -0.41800732  0.56801453 -0.1814417
+## [10,] -0.37617588  0.02061622 -0.3815400
+## 
+## [[2]]
+##               [,1]          [,2]         [,3]
+##  [1,]  4.687665514 -0.9852043567  1.815150523
+##  [2,]  8.608283425 -3.0477899344  0.098998427
+##  [3,] -1.860479380 -5.9549331065 -0.542866461
+##  [4,] -4.210016109 -1.8322007059  0.219030876
+##  [5,]  2.974472024 -0.2533263547  2.781987681
+##  [6,]  4.783659877 -0.6782554309 -2.008439754
+##  [7,] -0.246107460 -1.7451974155  0.020565941
+##  [8,] -2.667327123 -4.0903240047 -1.604929078
+##  [9,]  1.308587689  1.9077019545  0.731482007
+## [10,] -1.754625069 -3.7357773834  2.634080095
+## [11,]  0.000000000  0.0000000000  0.000000000
+## [12,] -0.016427175  0.0263617387  0.094510246
+## [13,]  0.000000000  0.0000000000  0.000000000
+## [14,] -0.109769449  0.1404766110 -0.090127908
+## [15,] -0.178695464 -0.1238263094  0.195509594
+## [16,] -0.007601075  0.0010342598  0.138101688
+## [17,]  0.025303838  0.0963584785  0.087255796
+## [18,]  0.000000000  0.0000000000  0.000000000
+## [19,]  0.000000000  0.0000000000  0.000000000
+## [20,]  0.000000000  0.0000000000  0.000000000
+## [21,] -0.065987711  0.1391469791  0.046611765
+## [22,] -0.068733649  0.0005895738 -0.030428269
+## [23,]  0.037524629 -0.1064702134 -0.088606230
+## [24,] -0.028270599 -0.0050535626 -0.005691456
+## [25,]  0.201490339  0.1264370140 -0.130685947
+## [26,]  0.000000000  0.0000000000  0.000000000
+## [27,]  0.000000000  0.0000000000  0.000000000
+## [28,] -0.204314735 -0.0123996414 -0.135357973
+## [29,]  0.039409617 -0.0507254914  0.123077180
+## [30,]  0.000000000  0.0000000000  0.000000000
+## 
+## [[3]]
+## [1] 37</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">SRRR2</span>(X,Y,lambda,<span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [[1]]
+##             [,1]       [,2]       [,3]
+##  [1,]  0.2591110  0.4061486 -0.2271307
+##  [2,]  0.1350565 -0.5028124  0.0251261
+##  [3,] -0.3846584  0.1348767 -0.3169768
+##  [4,]  0.1366035 -0.2842633  0.2875752
+##  [5,]  0.2781013 -0.2394468 -0.1353963
+##  [6,]  0.4079417 -0.1855248 -0.6963125
+##  [7,] -0.2120353  0.3829378 -0.1721237
+##  [8,] -0.2763765  0.0341023 -0.2627200
+##  [9,] -0.4356488 -0.4479563 -0.3805203
+## [10,] -0.4394417 -0.2073698  0.1340867
+## 
+## [[2]]
+##                [,1]          [,2]          [,3]
+##  [1,]  4.361528e+00  4.309431e+00 -1.006227e-01
+##  [2,]  3.248270e+00  8.607831e+00  2.961775e-01
+##  [3,] -3.451235e-01  3.473362e-01  6.121097e+00
+##  [4,] -5.490774e-04 -2.433896e-03  2.398374e-03
+##  [5,]  3.204809e-04  5.672220e-05 -1.400678e-04
+##  [6,]  6.889364e-06  2.056146e-03 -7.195789e-04
+##  [7,] -2.274404e-06 -3.102597e-06  4.042122e-05
+##  [8,] -6.400189e-04 -3.600064e-04  1.710638e-03
+##  [9,]  8.267378e-06 -4.158329e-06 -8.610314e-06
+## [10,]  4.264158e-04 -4.573792e-04  1.362505e-03
+## [11,]  2.300219e-06  3.650098e-06 -2.735937e-06
+## [12,] -4.620563e-08 -7.766331e-08 -1.361743e-07
+## [13,] -3.700127e-07  2.624844e-07 -2.403967e-07
+## [14,] -6.734649e-07 -1.421154e-07  1.294721e-07
+## [15,]  2.096801e-06 -1.471651e-05  3.189212e-05
+## [16,] -1.949297e-07 -1.534023e-07  1.806223e-07
+## [17,]  4.506545e-06  1.551344e-06 -4.298384e-06
+## [18,] -9.706144e-07 -2.723584e-06  2.500294e-06
+## [19,]  2.061501e-06  2.839864e-06 -4.303134e-06
+## [20,] -3.690429e-07  4.851182e-08 -1.167813e-07
+## [21,]  1.554297e-06 -1.285042e-06 -6.515031e-07
+## [22,]  7.948738e-07  2.882489e-06 -6.197853e-07
+## [23,]  1.823452e-06  6.084580e-06 -1.135989e-06
+## [24,] -2.529559e-07 -8.440974e-08  4.745708e-07
+## [25,] -8.454990e-08  7.964576e-07 -6.239907e-08
+## [26,] -9.298941e-08  5.064840e-07  2.782348e-07
+## [27,] -2.978181e-06 -2.699553e-06  5.016775e-06
+## [28,] -1.310045e-05 -5.554741e-06  1.764701e-05
+## [29,] -1.509743e-06  1.158970e-05 -9.105178e-06
+## [30,]  2.679534e-05  2.846593e-05 -5.553752e-05
+## 
+## [[3]]
+## [1] 4</code></pre>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
